@@ -1,10 +1,17 @@
+import secrets
 import socket
 import threading
 from tkinter import *
 from tkinter import scrolledtext
 from tkinter import messagebox
 import atexit
+import radius
 
+secret = "vrEGilVw@1rgMNM^$!l^t8&OkTVmXc%Hl97"
+username = "SQLAdmin"
+password = "Admin-08"
+r = radius.Radius(secret, host='radius', port=1812)
+print('success' if r.authenticate(username, password) else 'failure')
 
 root = Tk()
 root.title("TABm")
