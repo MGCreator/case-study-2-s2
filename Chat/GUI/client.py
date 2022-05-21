@@ -1,3 +1,4 @@
+from re import L
 import secrets
 import socket
 import threading
@@ -8,10 +9,12 @@ import atexit
 import radius
 
 secret = "vrEGilVw@1rgMNM^$!l^t8&OkTVmXc%Hl97"
-username = "SQLAdmin"
-password = "Admin-08"
-r = radius.Radius(secret, host='radius', port=1812)
-print('success' if r.authenticate(username, password) else 'failure')
+#username = "SQLAdmin"
+#password = "Admin-08"
+RADIUS_HOST = 'radius'
+RADIUS_AUTH_PORT = 1812
+r = radius.Radius(secret, RADIUS_HOST, RADIUS_AUTH_PORT)
+#print('success' if r.authenticate(username, password) else 'failure')
 
 root = Tk()
 root.title("TABm")
@@ -39,14 +42,55 @@ def update_message_bx(message):
 
 def log_in():
     try:
-        c.connect((HOST, PORT))
-        print("Successful connection to server")
-        update_message_bx("Successful connection to server")
-    
-    except:
-        print("Unable to establish a connection")
+        username = username_tb.get()
+        password = password_tb.get()
 
-    communicating_to_server(c)
+        if(username == "" or password == ""):
+            print("Cannot be empty string")
+            messagebox.showerror("Error", "Cannot be empty string")
+        else:
+            if r.authenticate(username, password):
+                try:
+                    c.connect((HOST, PORT))
+                    print("Successful connection to server")
+                    update_message_bx("Successful connection to server")
+                    update_message_bx("Successful login to server")
+                    c.sendall(bytes(username, 'utf-8'))
+                    writting_tb.config(state=NORMAL)
+                    send_btn.config(state=NORMAL)
+                    writting_tb.config(state=NORMAL)
+                    send_btn.config(state=NORMAL)
+                    username_tb.config(state=DISABLED)
+                    password_tb.config(state=DISABLED)
+                    join_btn.config(state=DISABLED)
+                    threading.Thread(target=listening_for_message, args=(c,)).start()
+                    send_message(c)
+        
+                except:
+                    print("Unable to establish a connection")
+                    messagebox.showinfo("Connection Status", "Unable to establish a connection")
+                
+            else:
+                messagebox.showinfo("Try Again", "Wrong Credentials")
+
+    except TclError as err:
+        print(f"{err} has occured. Most probably username cannot be detected.")
+
+
+
+# def log_in():
+#     communicating_to_server(c)
+#     if communicating_to_server(c) == "Success":
+
+#         try:
+#             c.connect((HOST, PORT))
+#             print("Successful connection to server")
+#             update_message_bx("Successful connection to server")
+        
+#         except:
+#             print("Unable to establish a connection")
+
+    
 
 
 def send_message_tk():
@@ -69,10 +113,14 @@ messages_frame.grid(row=1, column=0, sticky=NSEW)
 writting_frame = Frame(root, width=500, height=200, bg=BACKGROUND_COLOR3)
 writting_frame.grid(row=2, column=0, sticky=NSEW)
 
-username_lbl = Label(join_frame, text="Enter username", font=FONT, bg=BACKGROUND_COLOR, fg=BACKGROUND_COLOR_BUTTONS)
+username_lbl = Label(join_frame, text="Username", bg=BACKGROUND_COLOR, fg=BACKGROUND_COLOR_BUTTONS)
 username_lbl.pack(side=LEFT, padx=10)
-username_tb = Entry(join_frame, font=FONT, bg=BACKGROUND_COLOR_TEXT_BOX, fg='white', cursor=f"xterm {BACKGROUND_COLOR_BUTTONS}", insertbackground=BACKGROUND_COLOR_BUTTONS)
+username_tb = Entry(join_frame, bg=BACKGROUND_COLOR_TEXT_BOX, fg='white', cursor=f"xterm {BACKGROUND_COLOR_BUTTONS}", insertbackground=BACKGROUND_COLOR_BUTTONS)
 username_tb.pack(side=LEFT, padx=10)
+password_lbl = Label(join_frame, text="Password", bg=BACKGROUND_COLOR, fg=BACKGROUND_COLOR_BUTTONS)
+username_lbl.pack(side=LEFT, padx=10)
+password_tb = Entry(join_frame, bg=BACKGROUND_COLOR_TEXT_BOX, fg='white', cursor=f"xterm {BACKGROUND_COLOR_BUTTONS}", insertbackground=BACKGROUND_COLOR_BUTTONS)
+password_tb.pack(side=LEFT, padx=10)
 join_btn = Button(join_frame, text="Log In", command=log_in, bg=BACKGROUND_COLOR_BUTTONS)
 join_btn.pack(side=LEFT, padx=10)
 #password = Label(join_frame, text="Enter password").pack(side=LEFT, padx=10)
@@ -93,23 +141,8 @@ send_btn.config(state=DISABLED)
 #label = Label(root, text = text).pack()
 
 def communicating_to_server(c):
-    try:
-        username = username_tb.get()
-        is_not_empty = bool(username)
-        if(not is_not_empty):
-            print("Cannot be empty string")
-            messagebox.showerror("Error", "Cannot be empty string")
-        else:
-            update_message_bx("Successful login to server")
-            c.sendall(bytes(username, 'utf-8'))
-            writting_tb.config(state=NORMAL)
-            send_btn.config(state=NORMAL)
-    except TclError as err:
-        print(f"{err} has occured. Most probably username cannot be detected.")
     
-    threading.Thread(target=listening_for_message, args=(c,)).start()
-    send_message(c)
-
+    pass
     
 
 def listening_for_message(c):
