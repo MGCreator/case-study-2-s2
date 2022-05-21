@@ -119,7 +119,7 @@ username_tb = Entry(join_frame, bg=BACKGROUND_COLOR_TEXT_BOX, fg='white', cursor
 username_tb.pack(side=LEFT, padx=10)
 password_lbl = Label(join_frame, text="Password", bg=BACKGROUND_COLOR, fg=BACKGROUND_COLOR_BUTTONS)
 username_lbl.pack(side=LEFT, padx=10)
-password_tb = Entry(join_frame, bg=BACKGROUND_COLOR_TEXT_BOX, fg='white', cursor=f"xterm {BACKGROUND_COLOR_BUTTONS}", insertbackground=BACKGROUND_COLOR_BUTTONS)
+password_tb = Entry(join_frame, show="*", bg=BACKGROUND_COLOR_TEXT_BOX, fg='white', cursor=f"xterm {BACKGROUND_COLOR_BUTTONS}", insertbackground=BACKGROUND_COLOR_BUTTONS)
 password_tb.pack(side=LEFT, padx=10)
 join_btn = Button(join_frame, text="Log In", command=log_in, bg=BACKGROUND_COLOR_BUTTONS)
 join_btn.pack(side=LEFT, padx=10)
