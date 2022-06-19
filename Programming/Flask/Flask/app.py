@@ -29,8 +29,8 @@ recaptcha = ReCaptcha(app=app)
 app.config.update(dict(
     RECAPTCHA_ENABLED = True,
     # to make captcha to work you need your own keys. You can find them here https://www.google.com/recaptcha/admin/create
-    RECAPTCHA_SITE_KEY = '6LenAn4gAAAAAPKsoARiE_eRyhUNMleAupJUrGH_',
-    RECAPTCHA_SECRET_KEY = '6LenAn4gAAAAAEqeb1CM1DktqQY1FZ_uNPtHFlaD'
+    RECAPTCHA_SITE_KEY = '',
+    RECAPTCHA_SECRET_KEY = ''
 ))
 
 recaptcha = ReCaptcha()
