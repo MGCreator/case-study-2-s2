@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/update.css') }}" media="screen">
+<title>TAB's Management</title>
+{% endblock %}
+
+
+{% block body %}
+<section>
+<div class="content">
+
+    <h1>Update Task</h1>
+    
+    
+    {% for item in task %}
+        <form action="/update/{{ item[0] }}" method="POST">
+            <!-- <input type="text" name="content" id="content" value="{{ item[1] }}"> -->
+            <!-- <input type="submit" value="Update Task"> -->
+
+
+            <div class="form-group-1">
+                <label>First Name</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="fname" id="content" value="{{ item[1] }}" required>
+                    </div>
+
+                   
+            </div>
+
+            <div class="form-group-2">
+                <label>Last Name</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="lname" value="{{ item[2] }}" required>
+                    </div>
+            </div>
+
+            <div class="form-group-3">
+                <label>Your Email</label>
+                    <div class="input-group">   
+                        <input type="text" class="form-control" name="email" id="email" value="{{ item[3] }}" required>
+                    </div> 
+            </div>
+
+            <div class="form-group-4">
+                <labe>Mobile</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="mobile" id="username" value="{{ item[4] }}" required>
+                    </div>
+            </div>
+
+            <div class="form-group-5">
+                <label>Home Address</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="addr" id="password" value="{{ item[5] }}" required>
+                    </div>
+            </div>
+
+            <div class="form-group-6">
+                <label>Department</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="dprt" id="confirm" value="{{ item[6] }}" required>
+                    </div>
+            </div>
+
+            <div class="form-group-7">
+                <label>Position</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="posit" id="confirm" value="{{ item[7] }}" required>
+                    </div>                         
+            </div>
+
+            <div class="form-group-8">
+                <label>Salary</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="salary" id="confirm" value="{{ item[8] }}" required>
+                    </div>
+            </div>
+
+
+            <div class="container">
+                <div class="center">
+                  <button class="btn">
+                    <svg width="180px" height="60px" viewBox="0 0 180 60" class="border">
+                      <!--<polyline points="179,1 179,59 1,59 1,1 179,1" class="bg-line" />
+                      <polyline points="179,1 179,59 1,59 1,1 179,1" class="hl-line" />-->
+                    </svg>
+                    <span>Update</span>
+                  </button>
+                </div>
+              </div>
+
+            
+        </form>
+    
+    {% endfor %}
+    
+</div>
+</section>
+
+{% endblock %}

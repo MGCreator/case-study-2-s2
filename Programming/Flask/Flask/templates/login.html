@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}" media="screen">
+<title>TAB's Management</title>
+{% endblock %}
+
+
+{% block body %}
+
+<section>
+    <div class="content">
+        <div class="login">
+            <h1>SignIn</h1>
+            <form method="post" action="{{ url_for('login') }}">
+            {% if credentials %}
+            <h1>Invalid credentials</h1>
+            {% endif %}
+            
+            <p><input type="text" name="username" value="" placeholder="Username"></p>
+            <p><input type="password" name="password" value="" placeholder="Password"></p>
+            <p class="remember_me">
+                <!--<label>
+                <input type="checkbox" name="remember_me" id="remember_me">
+                Remember me on this computer
+                </label>-->
+            </p>
+            {{ recaptcha }}
+            <p class="submit"><input type="submit" name="commit" value="Login"></p>
+            <!-- {% if not is_captcha_completed %}
+            <p>Complete Captcha</p>
+            {% endif %} -->
+            </form>
+        </div>
+    </div>
+  
+
+{% endblock %}
